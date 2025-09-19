@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Logistics</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>body{font-family:sans-serif;margin:0;background:#f4f7fa}
+    header{background:#2b2d42;color:white;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+    .logo{font-size:1.4rem;font-weight:bold}
+    .container{max-width:700px;margin:2rem auto;background:white;padding:2rem;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    h2{text-align:center;margin-bottom:1.5rem}
+    form{display:grid;gap:1rem}
+    input,select{padding:0.7rem;font-size:1rem;border:1px solid #ccc;border-radius:8px}
+    button{background:#06d6a0;color:white;padding:0.8rem;font-size:1rem;border:none;border-radius:8px;cursor:pointer}
+    button:hover{background:#04b98b}
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">🍽️ FeedForword</div>
+  <nav><a href="index.html" style="color:white;text-decoration:none;">Home</a></nav>
+</header>
+<div class="container">
+  <h2>🚚 Logistics Form</h2>
+  <form>
+    <input type="time" placeholder="Preferred Pickup Time" required />
+    <select required>
+      <option disabled selected>Delivery Mode</option>
+      <option>Self</option>
+      <option>Volunteer</option>
+      <option>Assigned</option>
+    </select>
+    <input type="text" placeholder="Driver Name (if any)" />
+    <input type="text" placeholder="Vehicle Number (optional)" />
+    <button type="submit">Submit Logistics Info</button>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Volunteer Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #43cea2, #185a9d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      background: #ffffff;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #185a9d;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #185a9d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #1271c3;
+    }
+
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Volunteer Registration</h2>
+    <form action="/register_volunteer" method="POST">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required />
+      </div>
+
+      <div class="form-group">
+        <label for="state">State</label>
+        <select id="state" name="state" required onchange="loadCities()">
+          <option value="">Select State</option>
+          <option value="Telangana">Telangana</option>
+          <option value="Andhra Pradesh">Andhra Pradesh</option>
+          <option value="Karnataka">Karnataka</option>
+          <!-- Add more states here -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="city">City</label>
+        <select id="city" name="city" required>
+          <option value="">Select City</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="availability">Availability</label>
+        <select id="availability" name="availability" required>
+          <option value="">Select your availability</option>
+          <option value="Weekdays">Weekdays</option>
+          <option value="Weekends">Weekends</option>
+          <option value="Anytime">Anytime</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="interest">Area of Interest</label>
+        <textarea id="interest" name="interest" rows="3" placeholder="e.g., Food pickup, distribution, logistics, outreach..." required></textarea>
+      </div>
+
+      <button type="submit">Register Now</button>
+    </form>
+  </div>
+
+  <script>
+    const stateCityMap = {
+      "Telangana": ["Hyderabad", "Warangal", "Karimnagar", "Nizamabad", "Khammam", "Mahbubnagar", "Adilabad", "Siddipet", "Mancherial", "Nalgonda"],
+      "Andhra Pradesh": ["Vijayawada", "Bhimavaram", "Visakhapatnam", "Guntur", "Tirupati", "Rajahmundry", "Kakinada", "Nellore"],
+      "Karnataka": ["Bengaluru", "Mysuru", "Hubli", "Mangalore", "Belgaum"]
+    };
+
+    function loadCities() {
+      const state = document.getElementById("state").value;
+      const cityDropdown = document.getElementById("city");
+      cityDropdown.innerHTML = '<option value="">Select City</option>';
+
+      if (stateCityMap[state]) {
+        stateCityMap[state].forEach(city => {
+          const option = document.createElement("option");
+          option.value = city;
+          option.textContent = city;
+          cityDropdown.appendChild(option);
+        });
+      }
+    }
+  </script>
+</body>
+</html>

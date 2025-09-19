@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Food Safety</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; background: #f2f6fc; }
+    header { background: #2b2d42; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .container { max-width: 700px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h2 { text-align: center; }
+    form { display: grid; gap: 1rem; }
+    input, select { padding: 0.7rem; border-radius: 8px; border: 1px solid #ccc; }
+    button { background: #118ab2; color: white; padding: 0.8rem; border: none; border-radius: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">🍽️ FeedForword</div>
+  <nav><a href="index.html" style="color:white;text-decoration:none;">Home</a></nav>
+</header>
+<div class="container">
+  <h2>🧪 Food Safety Form</h2>
+  <form>
+    <input type="text" placeholder="Safety Checklist Notes" required />
+    <input type="date" placeholder="Last Inspection Date" />
+    <select>
+      <option disabled selected>Select Food Grade</option>
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+    </select>
+    <button type="submit">Submit Safety Info</button>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tracking & Location</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>body{font-family:sans-serif;margin:0;background:#f4f7fa}
+    header{background:#2b2d42;color:white;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+    .logo{font-size:1.4rem;font-weight:bold}
+    .container{max-width:700px;margin:2rem auto;background:white;padding:2rem;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+    h2{text-align:center;margin-bottom:1.5rem}
+    form{display:grid;gap:1rem}
+    input{padding:0.7rem;font-size:1rem;border:1px solid #ccc;border-radius:8px}
+    button{background:#073b4c;color:white;padding:0.8rem;font-size:1rem;border:none;border-radius:8px;cursor:pointer}
+    button:hover{background:#062c3a}
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">🍽️ FeedForword</div>
+  <nav><a href="index.html" style="color:white;text-decoration:none;">Home</a></nav>
+</header>
+<div class="container">
+  <h2>📍 Tracking & Location</h2>
+  <form>
+    <input type="text" placeholder="Latitude" required />
+    <input type="text" placeholder="Longitude" required />
+    <input type="text" placeholder="Address on Map (Auto-filled)" />
+    <button type="submit">Save Location</button>
+  </form>
+</div>
+</body>
+</html>

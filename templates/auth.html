@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Authentication</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: sans-serif; margin: 0; background: #f4f7fa; }
+    header { background: #2b2d42; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.4rem; font-weight: bold; }
+    .container { max-width: 400px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h2 { text-align: center; }
+    input, select { width: 100%; padding: 0.7rem; margin: 0.5rem 0; border-radius: 8px; border: 1px solid #ccc; }
+    button { background: #ef476f; color: white; padding: 0.7rem; width: 100%; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+    button:hover { background: #d43d5c; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">🍽️ FeedForword</div>
+  <nav><a href="index.html" style="color:white;text-decoration:none;">Home</a></nav>
+</header>
+<div class="container">
+  <h2>🔐 Login</h2>
+  <form>
+    <input type="email" placeholder="Email" required />
+    <input type="password" placeholder="Password" required />
+    <button type="submit">Login</button>
+  </form>
+  <p style="text-align:center; margin: 1rem 0;">OR</p>
+  <button>Send OTP</button>
+  <select style="margin-top: 1rem;">
+    <option disabled selected>Select Role</option>
+    <option>Admin</option>
+    <option>Donor</option>
+  </select>
+</div>
+</body>
+</html>

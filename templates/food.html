@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Donations</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7fa; }
+    header { background: #2b2d42; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.4rem; font-weight: bold; }
+    .container { max-width: 800px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+    h2 { text-align: center; margin-bottom: 1.5rem; }
+    form { display: grid; gap: 1rem; }
+    input, select, textarea { padding: 0.7rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px; }
+    button { background-color: #118ab2; color: white; padding: 0.8rem; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+    button:hover { background-color: #0d769b; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🍽️ FeedForword</div>
+    <nav><a href="{% url 'index' %}" style="color:white; text-decoration:none;">Home</a></nav>
+  </header>
+  <div class="container">
+    <h2>📋 All Donations</h2>
+    {% if donations %}
+      <ul style="list-style:none; padding:0; display:grid; gap:1rem;">
+        {% for d in donations %}
+          <li style="background:#fff; padding:1rem; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+            <div style="font-weight:bold;">{{ d.title }} (x{{ d.quantity }})</div>
+            <div>{{ d.description }}</div>
+            <div>Pickup: {{ d.pickup_address }}, {{ d.city }}</div>
+            <div>Donor: {{ d.donor.username }} · {{ d.created_at|date:"Y-m-d H:i" }}</div>
+            <div>Status: {{ d.get_status_display }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No donations yet.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
