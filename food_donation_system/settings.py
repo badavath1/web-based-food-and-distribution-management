@@ -4,7 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-@_g(&x8+yvavf$!+&4d32=u$d5!^rvu=%@)uuo@9b1r069dlwu'
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['web-based-food-and-distribution.onrender.com']
 
 INSTALLED_APPS = [
