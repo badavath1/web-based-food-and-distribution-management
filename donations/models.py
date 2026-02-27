@@ -7,7 +7,12 @@ class Donation(models.Model):
     description = models.TextField(blank=True)
     quantity = models.PositiveIntegerField(default=1)
     pickup_address = models.CharField(max_length=255)
+    # Used in templates to show location; stays optional
     city = models.CharField(max_length=100, blank=True)
+    # Extra attributes from donor.html
+    category = models.CharField(max_length=50, blank=True)
+    expiry_time = models.DateTimeField(null=True, blank=True)
+    food_image = models.ImageField(upload_to='food_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_collected = models.BooleanField(default=False)
     STATUS_CHOICES = [

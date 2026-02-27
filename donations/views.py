@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.utils.dateparse import parse_datetime
 from .forms import RegisterForm, DonationForm, FeedbackForm, SupportTicketForm
 from .models import Donation, SupportTicket
 
@@ -48,15 +49,39 @@ def dashboard(request):
 @login_required
 def donate(request):
     if request.method == 'POST':
-        form = DonationForm(request.POST)
-        if form.is_valid():
-            donation = form.save(commit=False)
-            donation.donor = request.user
+        # Map the existing donor.html form fields into the Donation model
+        food_name = request.POST.get('food_name', '').strip()
+        quantity_raw = request.POST.get('quantity')
+        try:
+            quantity = int(quantity_raw) if quantity_raw else 1
+        except (TypeError, ValueError):
+            quantity = 1
+        pickup_address = request.POST.get('pickup_address', '').strip()
+        description = request.POST.get('description', '').strip()
+        category = request.POST.get('category', '').strip()
+        expiry_raw = request.POST.get('expiry_time')
+        expiry_time = parse_datetime(expiry_raw) if expiry_raw else None
+        food_image = request.FILES.get('food_image')
+
+        if food_name and pickup_address:
+            donation = Donation(
+                donor=request.user,
+                title=food_name,
+                description=description,
+                quantity=quantity,
+                pickup_address=pickup_address,
+                # city is optional; no direct field in the form
+                city='',
+                category=category,
+                expiry_time=expiry_time,
+                food_image=food_image,
+            )
             donation.save()
-            return redirect('dashboard')
-    else:
-        form = DonationForm()
-    return render(request, 'donor.html', {'form': form})   # 👈 donor.html instead of donate.html
+            # After submitting, show the real donations list page
+            return redirect('donations_list')
+
+    # For GET (or invalid POST), just render the static donor.html UI
+    return render(request, 'donor.html')
 
 @login_required
 def donations_list(request):
@@ -138,6 +163,8 @@ def api_my_donations(request):
             'quantity': d.quantity,
             'pickup_address': d.pickup_address,
             'city': d.city,
+            'category': getattr(d, 'category', ''),
+            'expiry_time': (d.expiry_time.isoformat() if getattr(d, 'expiry_time', None) else None),
             'status': d.status,
             'created_at': d.created_at.isoformat(),
         }
