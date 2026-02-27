@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Food Safety Control Room</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+
+body{
+    display:flex;
+    min-height:100vh;
+    background:#0d1117;
+    color:#fff;
+}
+
+.sidebar{
+    width:220px;
+    background:#161b22;
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+}
+
+.sidebar h2{
+    margin-bottom:40px;
+    font-size:18px;
+    color:#58a6ff;
+}
+
+.sidebar a{
+    text-decoration:none;
+    color:#ccc;
+    margin-bottom:15px;
+}
+
+.sidebar a:hover{color:#58a6ff;}
+
+.main{flex:1;padding:30px;}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+
+.badge{
+    background:#238636;
+    padding:8px 15px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{opacity:1;}
+    50%{opacity:0.6;}
+    100%{opacity:1;}
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.card{
+    background:#161b22;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin-bottom:12px;
+    border-radius:8px;
+    border:1px solid #30363d;
+    background:#0d1117;
+    color:#fff;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#58a6ff;
+    border:none;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:hover{background:#1f6feb;}
+
+.bar{
+    width:100%;
+    height:25px;
+    background:#30363d;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.bar-fill{
+    height:100%;
+    width:0%;
+    background:#238636;
+    transition:0.6s;
+}
+
+.status{
+    margin-top:10px;
+    font-weight:600;
+    font-size:16px;
+}
+
+.score-number{
+    margin-top:10px;
+    font-size:22px;
+    font-weight:700;
+    color:#58a6ff;
+}
+
+.countdown{
+    margin-top:10px;
+    font-size:14px;
+    color:#d29922;
+}
+
+.report{
+    margin-top:15px;
+    font-size:13px;
+    line-height:1.6;
+    color:#ccc;
+}
+
+@media(max-width:900px){
+    body{flex-direction:column;}
+    .sidebar{width:100%;flex-direction:row;justify-content:space-around;}
+    .grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+<h2>AI Control</h2>
+<a href="#">Dashboard</a>
+<a href="#">Food Inspection</a>
+<a href="#">Compliance</a>
+<a href="#">Reports</a>
+</div>
+
+<div class="main">
+
+<div class="header">
+<h1>🛡️ AI Food Safety Monitoring</h1>
+<div class="badge">FSSAI Compliance Enabled</div>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>Food Safety Attributes</h3>
+
+<input type="text" id="foodName" placeholder="Food Name">
+
+
+<label>Storage Condition</label>
+<select id="storage">
+<option>Room Temperature</option>
+<option>Refrigerated</option>
+<option>Frozen</option>
+</select>
+
+<label>Food Smell</label>
+<select id="smell">
+<option>Normal</option>
+<option>Slightly Sour</option>
+<option>Bad Smell</option>
+</select>
+
+<label>Food Temperature (°C)</label>
+<input type="number" id="temperature">
+
+<label>Packaging Condition</label>
+<select id="packaging">
+<option>Sealed Properly</option>
+<option>Loose Packed</option>
+<option>Damaged</option>
+</select>
+
+<label>Hygiene Level</label>
+<select id="hygiene">
+<option>Excellent</option>
+<option>Average</option>
+<option>Poor</option>
+</select>
+
+<label>Visible Spoilage</label>
+<select id="spoilage">
+<option>No</option>
+<option>Minor</option>
+<option>Yes</option>
+</select>
+
+<button onclick="inspect()">Run Full AI Inspection</button>
+
+</div>
+
+<div class="card">
+<h3>AI Safety Evaluation</h3>
+
+<div class="bar">
+<div class="bar-fill" id="barFill"></div>
+</div>
+
+<div class="score-number" id="scoreNumber">Score: --</div>
+<div class="status" id="statusText">Awaiting Inspection...</div>
+<div class="countdown" id="countdown"></div>
+
+<div class="report" id="report"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function inspect(){
+
+let score = 100;
+let food = document.getElementById("foodName").value;
+let prepVal = document.getElementById("prepTime").value;
+let expiryVal = document.getElementById("expiryTime").value;
+
+if(!prepVal || !expiryVal){
+    alert("Select Preparation and Expiry Time");
+    return;
+}
+
+let prep = new Date(prepVal);
+let expiry = new Date(expiryVal);
+let now = new Date();
+
+if(expiry <= prep){
+    alert("Expiry must be greater than Preparation time");
+    return;
+}
+
+// Time freshness calculation
+let totalLife = (expiry-prep)/(1000*60*60);
+let usedLife = (now-prep)/(1000*60*60);
+
+if(usedLife>0){
+    score -= (usedLife/totalLife)*40;
+}
+
+if(now>expiry){
+    score -= 50;
+}
+
+// Storage
+let storage=document.getElementById("storage").value;
+if(storage==="Room Temperature") score-=15;
+if(storage==="Refrigerated") score+=5;
+if(storage==="Frozen") score+=10;
+
+// Smell
+let smell=document.getElementById("smell").value;
+if(smell==="Slightly Sour") score-=20;
+if(smell==="Bad Smell") score-=40;
+
+// Temperature
+let temp=parseFloat(document.getElementById("temperature").value);
+if(!isNaN(temp)){
+    if(temp>=60) score+=10;
+    else if(temp<=5) score+=5;
+    else if(temp>=20 && temp<=40) score-=15;
+}
+
+// Packaging
+let packaging=document.getElementById("packaging").value;
+if(packaging==="Loose Packed") score-=10;
+if(packaging==="Damaged") score-=25;
+
+// Hygiene
+let hygiene=document.getElementById("hygiene").value;
+if(hygiene==="Average") score-=10;
+if(hygiene==="Poor") score-=25;
+
+// Spoilage
+let spoilage=document.getElementById("spoilage").value;
+if(spoilage==="Minor") score-=20;
+if(spoilage==="Yes") score-=50;
+
+score=Math.max(0,Math.min(100,Math.round(score)));
+
+let bar=document.getElementById("barFill");
+let status=document.getElementById("statusText");
+let scoreNum=document.getElementById("scoreNumber");
+
+bar.style.width=score+"%";
+scoreNum.innerHTML="Score: "+score+" / 100";
+
+// Status
+if(score>75){
+    bar.style.background="#238636";
+    status.innerHTML="SAFE FOR DISTRIBUTION ✅";
+    status.style.color="#238636";
+}
+else if(score>50){
+    bar.style.background="#d29922";
+    status.innerHTML="MODERATE – DISTRIBUTE QUICKLY ⚠";
+    status.style.color="#d29922";
+}
+else{
+    bar.style.background="#da3633";
+    status.innerHTML="UNSAFE – REJECT FOOD ❌";
+    status.style.color="#da3633";
+}
+
+// Countdown
+let remaining=(expiry-now);
+if(remaining>0){
+    let hrs=Math.floor(remaining/(1000*60*60));
+    let mins=Math.floor((remaining%(1000*60*60))/(1000*60));
+    document.getElementById("countdown").innerHTML="⏳ Expires in: "+hrs+" hrs "+mins+" mins";
+}else{
+    document.getElementById("countdown").innerHTML="⛔ Food Expired";
+}
+
+// Report
+document.getElementById("report").innerHTML=
+"Inspection Report:<br>" +
+"Food: "+food+"<br>" +
+"Preparation: "+prep.toLocaleString()+"<br>" +
+"Expiry: "+expiry.toLocaleString()+"<br>" +
+"Final Safety Score: "+score+"/100<br>" +
+"System: AI-Based Safety Evaluation Model v2.0";
+
+}
+
+</script>
+
+</body>
+</html>

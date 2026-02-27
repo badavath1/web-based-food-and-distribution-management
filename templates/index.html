@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Food Donation System</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f2f4f7;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+
+    #preloader {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #002a52;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: white;
+      font-size: 1.5rem;
+      flex-direction: column;
+    }
+
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #ff9900;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    header {
+      background: linear-gradient(to right, #002a52, #004d99);
+      padding: 1.2rem 2rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideDown 1s ease;
+      flex-wrap: nowrap;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0;
+      bottom: -4px;
+      background-color: #ff9900;
+      transition: 0.4s;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      position: relative;
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .image-slider {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .bg-slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .bg-slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      animation: fadeInDown 1.2s ease;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      animation: fadeIn 2s ease;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary {
+      background-color: #004d99;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #003366;
+      transform: translateY(-3px);
+    }
+
+    .btn-orange {
+      background-color: #ff9900;
+      color: white;
+    }
+
+    .btn-orange:hover {
+      background-color: #cc7a00;
+      transform: translateY(-3px);
+    }
+
+    .dots {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background-color: #fff;
+      border-radius: 50%;
+      opacity: 0.5;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .active-dot {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .features {
+      padding: 60px 20px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .features h2 {
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      color: #002a52;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background-color: #f9f9f9;
+      padding: 25px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #222;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
+    footer {
+      background-color: #002a52;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    footer h3 {
+      margin-bottom: 10px;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔄 Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+    Loading FeedForword...
+  </div>
+
+  <header>
+    <div class="logo">🍽️ WEB-BASED FOOD DONATION AND DISTRIBUTION MANAGEMENT</div>
+    <nav>
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'register' %}">Register</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="image-slider">
+        <img src="{% static 'bg1.jpg' %}" class="bg-slide active" />
+        <img src="{% static 'bg2.jpg' %}" class="bg-slide" />
+        <img src="{% static 'bg3.jpg' %}" class="bg-slide" />
+      </div>
+      <div class="hero-content">
+        <h1>Empowering Communities Through Food Donation</h1>
+        <p>Donate, Track, Analyze, and Make a Difference</p>
+        <div class="hero-buttons">
+          <a href="{% url 'donate' %}" class="btn btn-primary">Add Donation</a>
+          <a href="{% url 'tracking' %}" class="btn btn-orange">Track Donation</a>
+        </div>
+        <div class="dots">
+          <span class="dot active-dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <h2 data-aos="fade-up">🌟 Platform Features</h2>
+      <div class="grid">
+        <a href="{% url 'donate' %}" class="feature-card" data-aos="fade-up">🧍‍♂️ <strong>Donor Info</strong><br/>Manage donor details, types & logos</a>
+        <a href="{% url 'donations_list' %}" class="feature-card" data-aos="zoom-in">🍱 <strong>Food Details</strong><br/>Food type, quantity, expiry & images</a>
+        <a href="{% url 'logistics' %}" class="feature-card" data-aos="fade-up">🚚 <strong>Logistics</strong><br/>Pickup time, delivery mode, driver info</a>
+        <a href="{% url 'tracking' %}" class="feature-card" data-aos="fade-up">📍 <strong>Tracking & Location</strong><br/>Live map integration, geolocation</a>
+        <a href="{% url 'auth' %}" class="feature-card" data-aos="fade-up">🔐 <strong>Authentication</strong><br/>Login, OTP, Admin/Donor roles</a>
+        <a href="{% url 'dashboard' %}" class="feature-card" data-aos="fade-up">📊 <strong>Admin Dashboard</strong><br/>Manage, approve & track all donations</a>
+        <a href="{% url 'safety' %}" class="feature-card" data-aos="fade-up">🧪 <strong>Food Safety</strong><br/>Checklist, expiry alerts, grading</a>
+        <a href="{% url 'feedback' %}" class="feature-card" data-aos="fade-up">💬 <strong>Feedback System</strong><br/>Ratings, comments, feedback tracking</a>
+        <a href="{% url 'rewards' %}" class="feature-card" data-aos="fade-up">🎖️ <strong>Rewards/Certificate</strong><br/>Earn points, auto certificate generator</a>
+        <a href="{% url 'security' %}" class="feature-card" data-aos="fade-up">🔐 <strong>Security</strong><br/>Encrypted data, secure login, HTTPS</a>
+        <a href="{% url 'support' %}" class="feature-card" data-aos="fade-up">📞 <strong>Customer Care</strong><br/>Contact support & raise tickets</a>
+        
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="contact">
+      <h3>📞 Contact Us</h3>
+      <p>Email: feedforword4@gmail.com</p>
+      
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    window.addEventListener("load", () => {
+      document.getElementById("preloader").style.display = "none";
+    });
+
+    const images = document.querySelectorAll('.bg-slide');
+    const dots = document.querySelectorAll('.dot');
+    let current = 0;
+
+    function nextImage() {
+      images[current].classList.remove('active');
+      dots[current].classList.remove('active-dot');
+
+      current = (current + 1) % images.length;
+
+      images[current].classList.add('active');
+      dots[current].classList.add('active-dot');
+    }
+
+    setInterval(nextImage, 2000);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Certificate of Appreciation</title>
+  <style>
+    body { background:#f1f5f9; font-family: 'Segoe UI', sans-serif; }
+    .wrap { max-width: 900px; margin: 2rem auto; background:#fff; border:10px solid #1e3a8a; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+    .inner { border:4px solid #93c5fd; margin:10px; padding:40px; text-align:center; }
+    .logo { width: 100px; height: 100px; margin: 0 auto 20px auto; background: linear-gradient(135deg, #1e3a8a, #3b82f6); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; color: white; box-shadow: 0 8px 16px rgba(30, 58, 138, 0.3); }
+    .title { font-size: 1.2rem; color:#1e3a8a; letter-spacing:2px; }
+    .heading { font-size: 2.2rem; margin: 0.25rem 0 1rem 0; }
+    .project { color:#334155; margin-bottom: 1.5rem; }
+    .name { font-size: 2rem; font-weight: 700; color:#111827; margin: 1rem 0; }
+    .meta { color:#475569; margin-top: 1rem; }
+    .sign { display:flex; justify-content:space-between; margin-top:2.5rem; color:#0f172a; }
+    .sign div { width:30%; border-top:2px solid #0f172a; padding-top:0.5rem; position: relative; }
+    .e-signature { font-family: 'Brush Script MT', cursive; font-size: 16px; color: #1e3a8a; font-weight: bold; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); }
+    .btns { margin: 1.5rem 0; }
+    .btns a, .btns button { background:#1e3a8a; color:#fff; border:none; border-radius:8px; padding:0.6rem 1rem; cursor:pointer; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="inner">
+      <div class="logo">🍽️</div>
+      <div class="title">Certificate of Appreciation</div>
+      <div class="heading">This certificate is proudly presented to</div>
+      <div class="name">{{ display_name }}</div>
+      <div class="project">for valuable contributions to {{ project_title }}.
+        {% if approved_count %}
+        You have {{ approved_count }} approved/collected donation{{ approved_count|pluralize }}.
+        {% endif %}
+      </div>
+      <div class="meta">Issued on {{ issued_at|date:"F j, Y" }}</div>
+      <div class="sign">
+        <div>
+          <div class="e-signature">Srujan</div>
+          Project Coordinator<br/><strong>Srujan</strong>
+        </div>
+        <div>
+          <div class="e-signature">Sreeraj</div>
+          Project Coordinator<br/><strong>Sreeraj</strong>
+        </div>
+        <div>
+          <div class="e-signature">Vivek Nayak</div>
+          Administrator<br/><strong>Vivek Nayak</strong>
+        </div>
+      </div>
+      <div class="btns">
+        <button onclick="window.print()">Print / Save as PDF</button>
+        <a href="/">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

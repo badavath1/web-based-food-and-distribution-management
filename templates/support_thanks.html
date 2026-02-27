@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support Submitted</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="logo">🍽️ FeedForword</div>
+    <nav><a href="{% url 'index' %}" style="color:white; text-decoration:none;">Home</a></nav>
+  </header>
+  <div class="container" style="max-width:800px;margin:2rem auto;background:#fff;padding:2rem;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+    <h2>✅ Ticket Submitted</h2>
+    <p>Thanks! Your ticket "{{ ticket.subject }}" has been received. Our support team will reach out to {{ ticket.email }}.</p>
+    <a href="{% url 'index' %}" class="btn">Back to Home</a>
+  </div>
+</body>
+</html>

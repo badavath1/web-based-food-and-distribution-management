@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support Tickets</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="logo">🍽️ FeedForword</div>
+    <nav><a href="{% url 'index' %}" style="color:white; text-decoration:none;">Home</a></nav>
+  </header>
+  <div class="container" style="max-width:900px;margin:2rem auto;background:#fff;padding:2rem;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+    <h2>📂 Support Tickets</h2>
+    {% if tickets %}
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">ID</th>
+            <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Subject</th>
+            <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Priority</th>
+            <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Status</th>
+            <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">User/Email</th>
+            <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in tickets %}
+          <tr>
+            <td style="border-bottom:1px solid #eee;padding:8px;">{{ t.id }}</td>
+            <td style="border-bottom:1px solid #eee;padding:8px;">{{ t.subject }}</td>
+            <td style="border-bottom:1px solid #eee;padding:8px;">{{ t.get_priority_display }}</td>
+            <td style="border-bottom:1px solid #eee;padding:8px;">{{ t.get_status_display }}</td>
+            <td style="border-bottom:1px solid #eee;padding:8px;">{% if t.user %}{{ t.user.username }}{% else %}{{ t.email }}{% endif %}</td>
+            <td style="border-bottom:1px solid #eee;padding:8px;">{{ t.created_at|date:"Y-m-d H:i" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No tickets yet.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

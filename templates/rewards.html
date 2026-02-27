@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rewards / Certificate</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; background: #f3f7f9; }
+    header { background: #2b2d42; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.4rem; font-weight: bold; }
+    .container { max-width: 600px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h2 { text-align: center; }
+    form, .certificate { display: grid; gap: 1rem; }
+    input { padding: 0.7rem; border: 1px solid #ccc; border-radius: 8px; }
+    button { background: #ffd166; border: none; padding: 0.7rem; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    .certificate { margin-top: 2rem; background: #fffbe6; padding: 1rem; border-radius: 10px; border: 1px dashed #ffb703; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">🍽️ FeedForword</div>
+  <nav><a href="/" style="color:white; text-decoration:none;">Home</a></nav>
+</header>
+<div class="container">
+  <h2>🎖️ Generate Your Certificate</h2>
+  <p>You can generate a professional certificate based on your approved donations.</p>
+  <form action="{% url 'generate_certificate' %}" method="get" style="margin-top:1rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+    <input type="text" name="name" placeholder="Enter name" style="flex:1;min-width:220px;padding:0.6rem;border:1px solid #cbd5e1;border-radius:8px;" />
+    <input type="text" name="username" placeholder="or username (optional)" style="flex:1;min-width:220px;padding:0.6rem;border:1px solid #cbd5e1;border-radius:8px;" />
+    <button type="submit" style="background:#1e3a8a;color:#fff;padding:0.7rem 1rem;border:none;border-radius:8px;cursor:pointer;">Generate</button>
+  </form>
+  <div style="margin-top:1rem;">
+    <a href="{% url 'generate_certificate' %}" style="display:inline-block;background:#0f766e;color:#fff;padding:0.6rem 0.9rem;border-radius:8px;text-decoration:none;">Use my account</a>
+  </div>
+</div>
+</body>
+</html>

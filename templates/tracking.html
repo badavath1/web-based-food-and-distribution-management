@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volunteer Live Tracking</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif;}
+
+body{
+    background:#0d1117;
+    color:white;
+}
+
+.header{
+    padding:15px;
+    background:#161b22;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header h2{
+    color:#58a6ff;
+    font-size:18px;
+}
+
+.badge{
+    background:#238636;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+#map{
+    height:75vh;
+    width:100%;
+}
+
+.info{
+    padding:15px;
+    background:#161b22;
+    display:flex;
+    justify-content:space-around;
+    flex-wrap:wrap;
+}
+
+.card{
+    background:#0d1117;
+    padding:15px;
+    border-radius:12px;
+    margin:8px;
+    min-width:150px;
+    text-align:center;
+}
+
+.card h3{
+    color:#58a6ff;
+    font-size:14px;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    background:#58a6ff;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1f6feb;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h2>🚶 Volunteer Live Tracking</h2>
+<div class="badge">Real-Time GPS</div>
+</div>
+
+<div id="map"></div>
+
+<div class="info">
+
+<div class="card">
+<h3>Status</h3>
+<p id="status">Waiting...</p>
+</div>
+
+<div class="card">
+<h3>Distance Covered</h3>
+<p id="distance">0 km</p>
+</div>
+
+<div class="card">
+<h3>ETA</h3>
+<p id="eta">-- min</p>
+</div>
+
+<div class="card">
+<button onclick="startTracking()">Start Delivery</button>
+</div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+
+let map = L.map('map').setView([20.5937,78.9629],5);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© OpenStreetMap'
+}).addTo(map);
+
+let donorLocation;
+let volunteerMarker;
+let pathLine;
+let totalDistance = 0;
+
+navigator.geolocation.getCurrentPosition(function(position){
+
+    let lat = position.coords.latitude;
+    let lng = position.coords.longitude;
+
+    donorLocation = [lat,lng];
+
+    map.setView(donorLocation,14);
+
+    L.marker(donorLocation).addTo(map)
+        .bindPopup("📍 Donor Location")
+        .openPopup();
+
+    volunteerMarker = L.marker(donorLocation).addTo(map)
+        .bindPopup("🚶 Volunteer");
+
+    pathLine = L.polyline([donorLocation],{color:'#58a6ff'}).addTo(map);
+
+});
+
+function startTracking(){
+
+    document.getElementById("status").innerText="Volunteer On The Way 🚶";
+
+    let steps = 0;
+
+    let interval = setInterval(()=>{
+
+        let newLat = volunteerMarker.getLatLng().lat + 0.001;
+        let newLng = volunteerMarker.getLatLng().lng + 0.001;
+
+        let newPosition = [newLat,newLng];
+
+        volunteerMarker.setLatLng(newPosition);
+        pathLine.addLatLng(newPosition);
+
+        totalDistance += 0.15;
+
+        document.getElementById("distance").innerText =
+            totalDistance.toFixed(2)+" km";
+
+        document.getElementById("eta").innerText =
+            Math.max(0,10-steps)+" min";
+
+        steps++;
+
+        if(steps >= 10){
+            clearInterval(interval);
+            document.getElementById("status").innerText="Food Delivered to Needy Person ✅";
+            document.getElementById("eta").innerText="0 min";
+        }
+
+    },2000);
+}
+
+</script>
+
+</body>
+</html>

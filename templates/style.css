@@ -1,0 +1,138 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+header {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+nav a {
+  color: white;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.hero {
+  background: linear-gradient(to right, #2563eb, #1e40af);
+  color: white;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.hero-buttons .btn {
+  background-color: #fff;
+  color: #1e3a8a;
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  border-radius: 8px;
+  margin: 0 0.5rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.hero-buttons .btn-secondary {
+  background-color: #1e3a8a;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.hero-buttons .btn:hover {
+  background-color: #dbeafe;
+}
+
+.features {
+  padding: 2rem;
+  text-align: center;
+}
+
+.features h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #1e3a8a;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Feature card styles */
+.feature-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  font-weight: 500;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  text-decoration: none !important;
+  color: inherit !important;
+  display: block;
+}
+
+/* Ensure everything inside the card also has no underline */
+.feature-card * {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  background-color: #e0f2fe;
+}
+
+footer {
+  background: #1e3a8a;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  flex-wrap: wrap;
+}
+
+footer h3 {
+  margin-bottom: 0.5rem;
+}
+
+footer .auth a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+footer .auth a:hover {
+  text-decoration: underline;
+}
