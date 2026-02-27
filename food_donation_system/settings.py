@@ -19,6 +19,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Serve static files efficiently in production
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,6 +71,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'templates' / 'static',
 ]
+# Folder where collectstatic will put all static files (used by Render)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Use WhiteNoise for compressed, cache-friendly static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media (for ImageField uploads)
 MEDIA_URL = '/media/'
